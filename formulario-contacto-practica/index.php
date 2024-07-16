@@ -1,3 +1,33 @@
+<?php
+  // Creando la lógica en el mismo archivo, aunque perfectamente puede estar en otro archivo separado
+
+  // Status: Permite guardar un estado para más adelante mostrar una alerta si el correo es enviado o no
+  $status = "";
+
+  // Comprobamos si el formulario no se envío vacío
+  function validateForm($name, $email, $subject, $message, $form){    
+    return !empty(trim($name)) && !empty(trim($email)) && !empty(trim($subject)) && !empty(trim($message));
+  }
+
+  // Comprobamos si el formulario fue enviado
+  if(isset($_POST['form'])){
+    // Invocamos función para validar y con el unpacking array le pasamos los parametros que vienen del POST solicitados a la función
+    if(validateForm(...$_POST)){
+
+      echo "<pre>";
+        var_dump(htmlentities($_POST['name']));
+        var_dump(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL));
+        var_dump(htmlentities($_POST['subject']));
+        var_dump(strip_tags($_POST['message']));
+      echo "</pre>";
+  
+      $status = "success";
+    }else{
+      $status = "error";
+    }
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
