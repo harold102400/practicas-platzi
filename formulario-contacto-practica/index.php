@@ -1,4 +1,6 @@
 <?php
+
+   require("./mail.php");
   // Creando la lógica en el mismo archivo, aunque perfectamente puede estar en otro archivo separado
 
   // Status: Permite guardar un estado para más adelante mostrar una alerta si el correo es enviado o no
@@ -14,12 +16,14 @@
     // Invocamos función para validar y con el unpacking array le pasamos los parametros que vienen del POST solicitados a la función
     if(validateForm(...$_POST)){
 
-      echo "<pre>";
-        var_dump(htmlentities($_POST['name']));
-        var_dump(filter_var($_POST['email'], FILTER_VALIDATE_EMAIL));
-        var_dump(htmlentities($_POST['subject']));
-        var_dump(strip_tags($_POST['message']));
-      echo "</pre>";
+        $name = (htmlentities($_POST['name']));
+        $email = (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL));
+        $subject = (htmlentities($_POST['subject']));
+        $message = (strip_tags($_POST['message']));
+
+        $body = "$name <$email> te envia el siguiente mensaje: <br><br> $message";
+
+        sendMail($subject, $body, $email, $name, true);
   
       $status = "success";
     }else{
